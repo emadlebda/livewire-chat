@@ -1,7 +1,8 @@
 <div>
 
     @forelse($conversations as $conversation)
-        <a class="list-group-item list-group-item-action active text-white rounded-0">
+        <a href="{{route('conversations.show',$conversation->uuid)}}"
+           class="list-group-item list-group-item-action active text-white rounded-0">
             <div class="media"><img
                     src="{{asset('assets/avatar.svg')}}"
                     alt="{{$conversation->name != ''?$conversation->name: $conversation->users->pluck('name')->join(',')}}"

@@ -9,9 +9,9 @@ use Illuminate\Http\Request;
 class ConversationsController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
-        $conversations = Conversation::get();
+        $conversations = $request->user()->conversations;
         return view('conversations.index', compact('conversations'));
     }
 
@@ -37,9 +37,10 @@ class ConversationsController extends Controller
      * @param Conversation $conversation
      * @return \Illuminate\Http\Response
      */
-    public function show(Conversation $conversation)
+    public function show(Conversation $conversation, Request $request)
     {
-        //
+        $conversations = $request->user()->conversations;
+        return view('conversations.show', compact('conversation','conversations'));
     }
 
     /**
@@ -48,7 +49,7 @@ class ConversationsController extends Controller
      * @param Conversation $conversation
      * @return \Illuminate\Http\Response
      */
-    public function edit(Conversation $conversation)
+    public function edit(Conversation $conversation, Request $request)
     {
         //
     }

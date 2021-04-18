@@ -18,11 +18,7 @@
 
                     <div class="messages-box">
                         <div class="list-group rounded-0">
-
-
                             <livewire:conversations.conversation-list :conversations="$conversations"/>
-
-
                         </div>
                     </div>
                 </div>
@@ -30,8 +26,12 @@
             <!-- Chat Box-->
             <div class="col-7 px-0">
                 <div class="px-4 py-5 chat-box bg-white">
-                    Index
+                    <livewire:conversations.conversation-messages :conversation="$conversation"
+                                                                  :messages="$conversation->messages"/>
                 </div>
+
+                <livewire:conversations.conversation-reply/>
+
             </div>
         </div>
     </div>
