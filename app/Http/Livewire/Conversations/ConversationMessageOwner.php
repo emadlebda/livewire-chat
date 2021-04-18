@@ -2,15 +2,20 @@
 
 namespace App\Http\Livewire\Conversations;
 
+use App\Models\Message;
 use Livewire\Component;
 
 class ConversationMessageOwner extends Component
 {
-    /**
-     * Get the view / contents that represent the component.
-     *
-     * @return \Illuminate\View\View|string
-     */
+
+    public $message;
+
+    public function mount(Message $message)
+    {
+        $this->$message = $message;
+    }
+
+
     public function render()
     {
         return view('livewire.conversations.conversation-message-owner');

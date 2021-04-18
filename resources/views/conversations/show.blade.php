@@ -30,7 +30,7 @@
                                                                   :messages="$conversation->messages"/>
                 </div>
 
-                <livewire:conversations.conversation-reply/>
+                <livewire:conversations.conversation-reply :conversation="$conversation"/>
 
             </div>
         </div>

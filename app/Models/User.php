@@ -51,6 +51,7 @@ class User extends Authenticatable
 
     public function conversations()
     {
-        return $this->belongsToMany(Conversation::class);
+        return $this->belongsToMany(Conversation::class)
+            ->withPivot('read_at');
     }
 }
