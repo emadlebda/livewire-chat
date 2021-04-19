@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Conversations;
 
+use App\Events\Conversations\MessageAdded;
 use App\Models\Conversation;
 use App\Models\Message;
 use Livewire\Component;
@@ -37,7 +38,7 @@ class ConversationReply extends Component
     {
         $this->validate();
 
-        if (!is_null($this->attachment)) {
+        if (($this->attachment != null)) {
             $this->attachmentName = md5($this->attachment . microtime()) . '.' . $this->attachment->extension();
             $this->attachment->storeAs('/', $this->attachmentName, 'media');
             $data['attachment'] = $this->attachmentName;
@@ -55,8 +56,15 @@ class ConversationReply extends Component
             ]);
         }
 
+
+        broadcast(new MessageAdded($message))->toOthers();
+
+        $this->emit('message.created', $message->id);
+
         $this->body = '';
         $this->attachment = '';
         $this->attachmentName = '';
+
+
     }
 }
