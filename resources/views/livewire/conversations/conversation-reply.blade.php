@@ -3,6 +3,27 @@
       wire:submit.prevent="reply"
       enctype="multipart/form-data"
 >
+
+    @if ($attachment)
+        <div class="input-group">
+            <div class="d-inline-flex align-items-center p-1 rounded border">
+                @if( in_array($attachment->extension(), ['png','jpg','jpeg','gif']) )
+                    <img src="{{ $attachment->temporaryUrl() }}" width="80">
+                @endif
+
+                @if( in_array($attachment->extension(), ['wav', 'mp3']) )
+                    <i class="far fa-file-audio fa-5x"></i>
+                @endif
+
+                @if( $attachment->extension() === 'mp4')
+                    <i class="far fa-file-video fa-5x"></i>
+                @endif
+
+
+            </div>
+        </div>
+    @endif
+
     <div class="input-group">
         <input type="text"
                placeholder="Type a message"

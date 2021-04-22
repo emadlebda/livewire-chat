@@ -4,7 +4,11 @@ namespace App\Http\Controllers\Conversations;
 
 use App\Http\Controllers\Controller;
 use App\Models\Conversation;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class ConversationsController extends Controller
 {
@@ -24,7 +28,7 @@ class ConversationsController extends Controller
      * Store a newly created resource in storage.
      *
      * @param Request $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function store(Request $request)
     {
@@ -35,19 +39,23 @@ class ConversationsController extends Controller
      * Display the specified resource.
      *
      * @param Conversation $conversation
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function show(Conversation $conversation, Request $request)
     {
         $conversations = $request->user()->conversations;
-        return view('conversations.show', compact('conversation','conversations'));
+
+        $request->user()->conversations()->updateExistingPivot($conversation, [
+            'read_at' => now(),
+        ]);
+        return view('conversations.show', compact('conversation', 'conversations'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
      * @param Conversation $conversation
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit(Conversation $conversation, Request $request)
     {
@@ -59,7 +67,7 @@ class ConversationsController extends Controller
      *
      * @param Request $request
      * @param Conversation $conversation
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, Conversation $conversation)
     {
@@ -70,7 +78,7 @@ class ConversationsController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Conversation $conversation
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy(Conversation $conversation)
     {

@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Conversation extends Model
 {
@@ -17,23 +19,32 @@ class Conversation extends Model
     protected $dates = ['last_message_at'];
 
 
-    public function users()
+    /**
+     * @return BelongsToMany
+     */
+    public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class)
             ->withPivot('read_at')
             ->withTimestamps()
-            ->oldest();
+            ->latest();
     }
 
-    public function others()
+    /**
+     * @return BelongsToMany
+     */
+    public function others(): BelongsToMany
     {
         return $this->users()->where('user_id', '!=', auth()->id());
     }
 
-    public function messages()
+    /**
+     * @return HasMany
+     */
+    public function messages(): HasMany
     {
         return $this->hasMany(Message::class)
-            ->oldest();
+            ->latest();
     }
 
 }

@@ -27,7 +27,7 @@
             <div class="col-7 px-0">
                 <div class="px-4 py-5 chat-box bg-white">
                     <livewire:conversations.conversation-messages :conversation="$conversation"
-                                                                  :messages="$conversation->messages"/>
+                                                                  :messages="$conversation->messages->reverse()"/>
                 </div>
 
                 <livewire:conversations.conversation-reply :conversation="$conversation"/>

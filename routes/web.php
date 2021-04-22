@@ -21,5 +21,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/conversations', [ConversationsController::class, 'index'])->name('conversations.index');
-Route::get('/conversations/{conversation:uuid}', [ConversationsController::class, 'show'])->name('conversations.show');
+
+Route::group(['middleware' => ['auth', 'verified']], function () {
+    Route::get('/conversations', [ConversationsController::class, 'index'])->name('conversations.index');
+    Route::get('/conversations/{conversation:uuid}', [ConversationsController::class, 'show'])->name('conversations.show');
+});
