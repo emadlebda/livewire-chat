@@ -1,10 +1,6 @@
 @extends('layouts.app')
-
-@section('style')
-    <link rel="stylesheet" href="{{asset('theme/style.css')}}">
-@endsection
-
 @section('content')
+
     <div class="container py-5 px-4">
 
         <div class="row rounded-lg overflow-hidden shadow">
@@ -21,7 +17,9 @@
 
                     <div class="messages-box">
                         <div class="list-group rounded-0">
+
                             <livewire:conversations.conversation-list :conversations="$conversations"/>
+
                         </div>
                     </div>
                 </div>
@@ -29,13 +27,12 @@
             <!-- Chat Box-->
             <div class="col-7 px-0">
                 <div class="px-4 py-5 chat-box bg-white">
-                    <livewire:conversations.conversation-messages :conversation="$conversation"
-                                                                  :messages="$conversation->messages->reverse()"/>
+
+                    <livewire:conversations.conversation-create/>
+
                 </div>
-
-                <livewire:conversations.conversation-reply :conversation="$conversation"/>
-
             </div>
         </div>
     </div>
+
 @endsection

@@ -8,7 +8,9 @@
     <div class="container py-5 px-4">
 
         <div class="row rounded-lg overflow-hidden shadow">
-            <!-- Users box-->
+        @include('conversations.partials.header')
+
+        <!-- Users box-->
             <div class="col-5 px-0">
                 <div class="bg-white">
 

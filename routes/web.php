@@ -24,5 +24,6 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/conversations', [ConversationsController::class, 'index'])->name('conversations.index');
+    Route::get('/conversations/create', [ConversationsController::class, 'create'])->name('conversations.create');
     Route::get('/conversations/{conversation:uuid}', [ConversationsController::class, 'show'])->name('conversations.show');
 });

@@ -19,9 +19,12 @@ class ConversationsController extends Controller
         return view('conversations.index', compact('conversations'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $conversations = $request->user()->conversations;
+
+        return view('conversations.create', compact('conversations'));
+
     }
 
     /**
