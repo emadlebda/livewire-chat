@@ -4,7 +4,7 @@
         <div class="mb-2 text-muted">
             Send to
             @foreach($users as $user)
-                <a href="#" class="font-weight-bold"> {{ $user['name'] }}</a>{{ !$loop->last ? ', ' : null }}
+                <a href="#" class="font-weight-bold"> {{ $user['name'] }}</a>{{ !$loop->last ? ', ' : '' }}
             @endforeach
         </div>
 
@@ -38,7 +38,7 @@
         function conversationCreateState() {
             return {
                 addUser(user) {
-                @this.call('addUser', user);
+                @this.call('addUser', user)
                     this.$refs.search.value = ''
                     this.suggestions = []
                 }

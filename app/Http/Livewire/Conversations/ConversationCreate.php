@@ -2,7 +2,11 @@
 
 namespace App\Http\Livewire\Conversations;
 
+use App\Events\Conversations\ConversationCreated;
 use App\Models\Conversation;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Collection;
+use Illuminate\View\View;
 use Livewire\Component;
 use Str;
 
@@ -12,6 +16,13 @@ class ConversationCreate extends Component
     public $body = '';
     public $users = [];
 
+
+    protected $rules = [
+        'users' => 'required',
+        'name' => 'nullable|string',
+        'body' => 'required',
+    ];
+
     public function addUser($user)
     {
         $this->users[] = $user;
@@ -19,11 +30,7 @@ class ConversationCreate extends Component
 
     public function create()
     {
-        $this->validate([
-            'users' => 'required',
-            'name' => 'nullable|string',
-            'body' => 'required',
-        ]);
+        $this->validate();
 
         $conversation = Conversation::create([
             'name' => $this->name,
@@ -38,21 +45,27 @@ class ConversationCreate extends Component
 
         $conversation->users()->sync($this->collectUsersIds());
 
-//        broadcast(new ConversationCreated($conversation))->toOthers();
+        broadcast(new ConversationCreated($conversation))->toOthers();
 
         return redirect()->route('conversations.show', $conversation);
 
     }
 
-    public function collectUsersIds()
+    /**
+     * get conversation's users id
+     * @return Collection
+     */
+    public function collectUsersIds(): Collection
     {
-        return collect($this->users)->merge([auth()->user()])->pluck('id')->unique();
+        return collect($this->users)->merge([auth()->user()])
+            ->pluck('id')
+            ->unique();
     }
 
     /**
      * Get the view / contents that represent the component.
      *
-     * @return \Illuminate\View\View|string
+     * @return View|string
      */
     public function render()
     {

@@ -10,14 +10,13 @@ class ConversationList extends Component
 {
     public $conversations;
 
-
     /**
      * @return array
      */
     public function getListeners(): array
     {
         return [
-//            'echo-private:User.' . auth()->id() . ',Conversations\\ConversationCreated' => 'createConversationFromBroadcast',
+            'echo-private:User.' . auth()->id() . ',Conversations\\ConversationCreated' => 'createConversationFromBroadcast',
             'echo-private:User.' . auth()->id() . ',Conversations\\ConversationUpdated' => 'updateConversationFromBroadcast'
         ];
     }
@@ -34,10 +33,10 @@ class ConversationList extends Component
     }
 
 
-//    public function createConversationFromBroadcast($payload)
-//    {
-//        return $this->conversations->prepend(Conversation::find($payload['conversation']['id']));
-//    }
+    public function createConversationFromBroadcast($payload)
+    {
+        return $this->conversations->prepend(Conversation::find($payload['conversation']['id']));
+    }
 
     public function updateConversationFromBroadcast($payload)
     {
