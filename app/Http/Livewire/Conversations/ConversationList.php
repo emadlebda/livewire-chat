@@ -24,7 +24,7 @@ class ConversationList extends Component
 
     public function mount(Collection $conversations)
     {
-        $this->conversations = $conversations;
+        $this->conversations = $conversations->reverse();
     }
 
     public function render()
@@ -45,6 +45,5 @@ class ConversationList extends Component
         } else {
             $this->conversations->find($payload['conversation']['id'])->fresh();
         }
-
     }
 }
