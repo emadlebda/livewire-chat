@@ -13,29 +13,14 @@ use Illuminate\Http\Response;
 class ConversationsController extends Controller
 {
 
-    public function index(Request $request)
+    public function index()
     {
-        $conversations = $request->user()->conversations;
-        return view('conversations.index', compact('conversations'));
+        return view('conversations.index');
     }
 
-    public function create(Request $request)
+    public function create()
     {
-        $conversations = $request->user()->conversations;
-
-        return view('conversations.create', compact('conversations'));
-
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @return Response
-     */
-    public function store(Request $request)
-    {
-        //
+        return view('conversations.create');
     }
 
     /**
@@ -46,45 +31,10 @@ class ConversationsController extends Controller
      */
     public function show(Conversation $conversation, Request $request)
     {
-        $conversations = $request->user()->conversations;
+        $this->authorize('show', $conversation);
 
-        $request->user()->conversations()->updateExistingPivot($conversation, [
-            'read_at' => now(),
-        ]);
-        return view('conversations.show', compact('conversation', 'conversations'));
-    }
+        $request->user()->conversations()->updateExistingPivot($conversation, ['read_at' => now(),]);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param Conversation $conversation
-     * @return Response
-     */
-    public function edit(Conversation $conversation, Request $request)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param Conversation $conversation
-     * @return Response
-     */
-    public function update(Request $request, Conversation $conversation)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param Conversation $conversation
-     * @return Response
-     */
-    public function destroy(Conversation $conversation)
-    {
-        //
+        return view('conversations.show', compact('conversation'));
     }
 }

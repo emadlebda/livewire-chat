@@ -5,7 +5,6 @@ namespace App\Http\Livewire\Conversations;
 use App\Events\Conversations\ConversationUpdated;
 use App\Events\Conversations\MessageAdded;
 use App\Models\Conversation;
-use App\Models\Message;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -51,11 +50,8 @@ class ConversationReply extends Component
         $message = $this->conversation->messages()->create($data);
         $this->conversation->update(['last_message_at' => now()]);
 
-        foreach ($this->conversation->others as $user) {
-            $user->conversations()->updateExistingPivot($this->conversation, [
-                'read_at' => null,
-            ]);
-        }
+        foreach ($this->conversation->others as $user)
+            $user->conversations()->updateExistingPivot($this->conversation, ['read_at' => null,]);
 
 
         broadcast(new MessageAdded($message))->toOthers();
@@ -66,7 +62,5 @@ class ConversationReply extends Component
         $this->body = '';
         $this->attachment = '';
         $this->attachmentName = '';
-
-
     }
 }
